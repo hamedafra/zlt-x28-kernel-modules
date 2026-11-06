@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+# CAKE on the LTE WAN + fq on the LAN bridges; see /etc/sqm-cake.sh and /etc/sqm-cake.conf.
+START=20
+EXTRA_COMMANDS="status"
+
+start() {
+	/etc/sqm-cake.sh apply
+}
+
+stop() {
+	/etc/sqm-cake.sh remove
+}
+
+status() {
+	/etc/sqm-cake.sh status
+}

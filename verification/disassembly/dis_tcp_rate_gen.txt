@@ -1,0 +1,83 @@
+ffffff8008b6697c <.data+0xae697c>:
+ffffff8008b6697c:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+ffffff8008b66980:	910003fd 	mov	x29, sp
+ffffff8008b66984:	a90153f3 	stp	x19, x20, [sp, #16]
+ffffff8008b66988:	a9025bf5 	stp	x21, x22, [sp, #32]
+ffffff8008b6698c:	f9001bf7 	str	x23, [sp, #48]
+ffffff8008b66990:	aa0003f3 	mov	x19, x0
+ffffff8008b66994:	2a0103f5 	mov	w21, w1
+ffffff8008b66998:	aa1e03e0 	mov	x0, x30
+ffffff8008b6699c:	2a0203f7 	mov	w23, w2
+ffffff8008b669a0:	12001c76 	and	w22, w3, #0xff
+ffffff8008b669a4:	aa0403f4 	mov	x20, x4
+ffffff8008b669a8:	97d4debe 	bl	0xffffff800809e4a0
+ffffff8008b669ac:	b946fe60 	ldr	w0, [x19, #1788]
+ffffff8008b669b0:	340000a0 	cbz	w0, 0xffffff8008b669c4
+ffffff8008b669b4:	b946f261 	ldr	w1, [x19, #1776]
+ffffff8008b669b8:	4b010000 	sub	w0, w0, w1
+ffffff8008b669bc:	36f80040 	tbz	w0, #31, 0xffffff8008b669c4
+ffffff8008b669c0:	b906fe7f 	str	wzr, [x19, #1788]
+ffffff8008b669c4:	34000075 	cbz	w21, 0xffffff8008b669d0
+ffffff8008b669c8:	f9433260 	ldr	x0, [x19, #1632]
+ffffff8008b669cc:	f9038660 	str	x0, [x19, #1800]
+ffffff8008b669d0:	f9400281 	ldr	x1, [x20]
+ffffff8008b669d4:	29055697 	stp	w23, w21, [x20, #40]
+ffffff8008b669d8:	b4000041 	cbz	x1, 0xffffff8008b669e0
+ffffff8008b669dc:	34000156 	cbz	w22, 0xffffff8008b66a04
+ffffff8008b669e0:	12800000 	mov	w0, #0xffffffff            	// #-1
+ffffff8008b669e4:	b9000e80 	str	w0, [x20, #12]
+ffffff8008b669e8:	92800000 	mov	x0, #0xffffffffffffffff    	// #-1
+ffffff8008b669ec:	f9000a80 	str	x0, [x20, #16]
+ffffff8008b669f0:	a94153f3 	ldp	x19, x20, [sp, #16]
+ffffff8008b669f4:	a9425bf5 	ldp	x21, x22, [sp, #32]
+ffffff8008b669f8:	f9401bf7 	ldr	x23, [sp, #48]
+ffffff8008b669fc:	a8c47bfd 	ldp	x29, x30, [sp], #64
+ffffff8008b66a00:	d65f03c0 	ret
+ffffff8008b66a04:	b946f263 	ldr	w3, [x19, #1776]
+ffffff8008b66a08:	b9400a80 	ldr	w0, [x20, #8]
+ffffff8008b66a0c:	f9400a84 	ldr	x4, [x20, #16]
+ffffff8008b66a10:	4b000063 	sub	w3, w3, w0
+ffffff8008b66a14:	b9000e83 	str	w3, [x20, #12]
+ffffff8008b66a18:	f9433260 	ldr	x0, [x19, #1632]
+ffffff8008b66a1c:	eb010000 	subs	x0, x0, x1
+ffffff8008b66a20:	9a9f5000 	csel	x0, x0, xzr, pl	// pl = nfrst
+ffffff8008b66a24:	29030284 	stp	w4, w0, [x20, #24]
+ffffff8008b66a28:	6b00009f 	cmp	w4, w0
+ffffff8008b66a2c:	1a802081 	csel	w1, w4, w0, cs	// cs = hs, nlast
+ffffff8008b66a30:	2a0103e2 	mov	w2, w1
+ffffff8008b66a34:	f9000a82 	str	x2, [x20, #16]
+ffffff8008b66a38:	b9468266 	ldr	w6, [x19, #1664]
+ffffff8008b66a3c:	eb26405f 	cmp	x2, w6, uxtw
+ffffff8008b66a40:	5400020a 	b.ge	0xffffff8008b66a80  // b.tcont
+ffffff8008b66a44:	3940d680 	ldrb	w0, [x20, #53]
+ffffff8008b66a48:	35fffd00 	cbnz	w0, 0xffffff8008b669e8
+ffffff8008b66a4c:	d503201f 	nop
+ffffff8008b66a50:	1400000b 	b	0xffffff8008b66a7c
+ffffff8008b66a54:	395b1265 	ldrb	w5, [x19, #1732]
+ffffff8008b66a58:	b0004661 	adrp	x1, 0xffffff8009433000
+ffffff8008b66a5c:	3953c264 	ldrb	w4, [x19, #1264]
+ffffff8008b66a60:	91287021 	add	x1, x1, #0xa1c
+ffffff8008b66a64:	d0009520 	adrp	x0, 0xffffff8009e0c000
+ffffff8008b66a68:	91264000 	add	x0, x0, #0x990
+ffffff8008b66a6c:	d34418a5 	ubfx	x5, x5, #4, #3
+ffffff8008b66a70:	12001484 	and	w4, w4, #0x3f
+ffffff8008b66a74:	97e4bff3 	bl	0xffffff8008496a40
+ffffff8008b66a78:	17ffffdc 	b	0xffffff8008b669e8
+ffffff8008b66a7c:	17ffffdb 	b	0xffffff8008b669e8
+ffffff8008b66a80:	3940d280 	ldrb	w0, [x20, #52]
+ffffff8008b66a84:	34000100 	cbz	w0, 0xffffff8008b66aa4
+ffffff8008b66a88:	b9471660 	ldr	w0, [x19, #1812]
+ffffff8008b66a8c:	93407c62 	sxtw	x2, w3
+ffffff8008b66a90:	9b027c00 	mul	x0, x0, x2
+ffffff8008b66a94:	b9471262 	ldr	w2, [x19, #1808]
+ffffff8008b66a98:	9ba27c21 	umull	x1, w1, w2
+ffffff8008b66a9c:	eb01001f 	cmp	x0, x1
+ffffff8008b66aa0:	54fffa83 	b.cc	0xffffff8008b669f0  // b.lo, b.ul, b.last
+ffffff8008b66aa4:	b9071263 	str	w3, [x19, #1808]
+ffffff8008b66aa8:	f9400a80 	ldr	x0, [x20, #16]
+ffffff8008b66aac:	b9071660 	str	w0, [x19, #1812]
+ffffff8008b66ab0:	39595260 	ldrb	w0, [x19, #1620]
+ffffff8008b66ab4:	3940d281 	ldrb	w1, [x20, #52]
+ffffff8008b66ab8:	331e0020 	bfi	w0, w1, #2, #1
+ffffff8008b66abc:	39195260 	strb	w0, [x19, #1620]
+ffffff8008b66ac0:	17ffffcc 	b	0xffffff8008b669f0

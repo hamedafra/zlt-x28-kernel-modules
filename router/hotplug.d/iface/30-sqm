@@ -1,0 +1,7 @@
+#!/bin/sh
+# The modem interface loses its qdisc when the data call is re-established; put CAKE back,
+# but only while the sqm service is enabled (/etc/init.d/sqm enable). Disabled = this does nothing.
+[ "$ACTION" = ifup ] || exit 0
+[ -e /etc/rc.d/S20sqm ] || exit 0
+[ -x /etc/sqm-cake.sh ] && /etc/sqm-cake.sh apply >/dev/null 2>&1
+exit 0

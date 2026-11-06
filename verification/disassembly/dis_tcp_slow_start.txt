@@ -1,0 +1,21 @@
+ffffff8008b635d4 <.data+0xae35d4>:
+ffffff8008b635d4:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+ffffff8008b635d8:	910003fd 	mov	x29, sp
+ffffff8008b635dc:	a90153f3 	stp	x19, x20, [sp, #16]
+ffffff8008b635e0:	aa0003f4 	mov	x20, x0
+ffffff8008b635e4:	2a0103f3 	mov	w19, w1
+ffffff8008b635e8:	aa1e03e0 	mov	x0, x30
+ffffff8008b635ec:	97d4ebad 	bl	0xffffff800809e4a0
+ffffff8008b635f0:	b946d281 	ldr	w1, [x20, #1744]
+ffffff8008b635f4:	b946ce80 	ldr	w0, [x20, #1740]
+ffffff8008b635f8:	0b010261 	add	w1, w19, w1
+ffffff8008b635fc:	b946da82 	ldr	w2, [x20, #1752]
+ffffff8008b63600:	6b01001f 	cmp	w0, w1
+ffffff8008b63604:	1a819000 	csel	w0, w0, w1, ls	// ls = plast
+ffffff8008b63608:	6b00005f 	cmp	w2, w0
+ffffff8008b6360c:	1a809042 	csel	w2, w2, w0, ls	// ls = plast
+ffffff8008b63610:	b906d282 	str	w2, [x20, #1744]
+ffffff8008b63614:	4b000020 	sub	w0, w1, w0
+ffffff8008b63618:	a94153f3 	ldp	x19, x20, [sp, #16]
+ffffff8008b6361c:	a8c27bfd 	ldp	x29, x30, [sp], #32
+ffffff8008b63620:	d65f03c0 	ret

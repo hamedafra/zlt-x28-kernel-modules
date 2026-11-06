@@ -1,0 +1,49 @@
+#!/bin/sh /etc/rc.common
+# BBR congestion control plus the fq queue it pairs with, both built for this kernel (4.19.205 MT6890):
+# https://github.com/hamedafra/zlt-x28-kernel-modules . fq only paces packets, it never caps bandwidth.
+#   /etc/init.d/bbr start|stop|status
+START=19
+EXTRA_COMMANDS="status fq"
+
+DIR=/data/bbr
+FQ_DEVS="ccmni1 br0 br1"
+
+# put fq on the interfaces that exist; also run from /etc/hotplug.d/iface/20-bbr-fq, because the
+# bridges and the modem interface are created after this script runs at boot
+fq() {
+	grep -q '^sch_fq ' /proc/modules || return 0
+	for d in $FQ_DEVS; do
+		[ -d /sys/class/net/$d ] || continue
+		tc qdisc show dev $d | grep -q '^qdisc fq ' || tc qdisc replace dev $d root fq
+	done
+}
+
+start() {
+	# /data is a UBI volume; give it a moment in case it mounts after us at boot
+	local i=0
+	while [ ! -f "$DIR/tcp_bbr.ko" ] && [ $i -lt 30 ]; do sleep 1; i=$((i + 1)); done
+	[ -f "$DIR/tcp_bbr.ko" ] || { echo "bbr: $DIR/tcp_bbr.ko missing"; return 1; }
+	grep -q '^tcp_bbr ' /proc/modules || insmod "$DIR/tcp_bbr.ko" || return 1
+	sysctl -w net.ipv4.tcp_congestion_control=bbr >/dev/null
+	if [ -f "$DIR/sch_fq.ko" ]; then
+		grep -q '^sch_fq ' /proc/modules || insmod "$DIR/sch_fq.ko"
+		sysctl -w net.core.default_qdisc=fq >/dev/null
+		fq
+		# at boot the bridges show up later than this script (and not always with a hotplug event): keep trying for 2 minutes
+		( i=0; while [ $i -lt 24 ]; do sleep 5; fq; i=$((i + 1)); done ) >/dev/null 2>&1 &
+	fi
+}
+
+stop() {
+	sysctl -w net.ipv4.tcp_congestion_control=cubic >/dev/null
+	sysctl -w net.core.default_qdisc=fq_codel >/dev/null
+	for d in $FQ_DEVS; do tc qdisc del dev $d root 2>/dev/null; done
+	rmmod sch_fq 2>/dev/null
+	rmmod tcp_bbr 2>/dev/null
+}
+
+status() {
+	echo "congestion control: $(cat /proc/sys/net/ipv4/tcp_congestion_control), default qdisc: $(cat /proc/sys/net/core/default_qdisc)"
+	grep -E '^(tcp_bbr|sch_fq) ' /proc/modules || echo "modules not loaded"
+	for d in $FQ_DEVS; do [ -d /sys/class/net/$d ] && echo "$d: $(tc qdisc show dev $d | head -1 | cut -d' ' -f1-2)"; done
+}

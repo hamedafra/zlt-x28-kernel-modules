@@ -1,0 +1,18 @@
+ffffff8008b9d4b8 <.data+0xb1d4b8>:
+ffffff8008b9d4b8:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+ffffff8008b9d4bc:	910003fd 	mov	x29, sp
+ffffff8008b9d4c0:	f9000bf3 	str	x19, [sp, #16]
+ffffff8008b9d4c4:	aa0003f3 	mov	x19, x0
+ffffff8008b9d4c8:	aa1e03e0 	mov	x0, x30
+ffffff8008b9d4cc:	97d403f5 	bl	0xffffff800809e4a0
+ffffff8008b9d4d0:	d2c00400 	mov	x0, #0x2000000000          	// #137438953472
+ffffff8008b9d4d4:	f9029e60 	str	x0, [x19, #1336]
+ffffff8008b9d4d8:	b000aac0 	adrp	x0, 0xffffff800a0f6000
+ffffff8008b9d4dc:	f902967f 	str	xzr, [x19, #1320]
+ffffff8008b9d4e0:	b9489800 	ldr	w0, [x0, #2200]
+ffffff8008b9d4e4:	f9029a7f 	str	xzr, [x19, #1328]
+ffffff8008b9d4e8:	34000040 	cbz	w0, 0xffffff8008b9d4f0
+ffffff8008b9d4ec:	b906ce60 	str	w0, [x19, #1740]
+ffffff8008b9d4f0:	f9400bf3 	ldr	x19, [sp, #16]
+ffffff8008b9d4f4:	a8c27bfd 	ldp	x29, x30, [sp], #32
+ffffff8008b9d4f8:	d65f03c0 	ret

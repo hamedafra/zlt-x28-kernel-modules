@@ -1,0 +1,18 @@
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1834,6 +1834,7 @@
+ 	/* Stats to monitor link on/off, flapping */
+ 	atomic_t		carrier_up_count;
+ 	atomic_t		carrier_down_count;
++	u8			__vendor_pad_before_ops[16];	/* MTK kernel: netdev_ops at 504, mtu at 560 (+16 vs vanilla) */
+ 
+ #ifdef CONFIG_WIRELESS_EXT
+ 	const struct iw_handler_def *wireless_handlers;
+@@ -1925,6 +1926,7 @@
+ #if IS_ENABLED(CONFIG_IRDA) || IS_ENABLED(CONFIG_ATALK)
+ 	void 			*atalk_ptr;
+ #endif
++	u8			__vendor_pad_before_ip_ptr[32];	/* MTK kernel has 48 more bytes before ip_ptr (ip_ptr at 760, ifindex at 264) */
+ 	struct in_device __rcu	*ip_ptr;
+ #if IS_ENABLED(CONFIG_DECNET)
+ 	struct dn_dev __rcu     *dn_ptr;

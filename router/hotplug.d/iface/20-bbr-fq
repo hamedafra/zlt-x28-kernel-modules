@@ -1,0 +1,6 @@
+#!/bin/sh
+# Bridges and the modem interface appear after /etc/init.d/bbr ran at boot: give them fq when they come up.
+[ "$ACTION" = ifup ] || exit 0
+[ -e /etc/rc.d/S19bbr ] || exit 0
+/etc/init.d/bbr fq >/dev/null 2>&1
+exit 0

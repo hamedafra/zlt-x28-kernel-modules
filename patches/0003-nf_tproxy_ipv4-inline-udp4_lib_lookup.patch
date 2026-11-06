@@ -1,0 +1,16 @@
+--- a/net/ipv4/netfilter/nf_tproxy_ipv4.c
++++ b/net/ipv4/netfilter/nf_tproxy_ipv4.c
+@@ -117,8 +117,11 @@
+ 		break;
+ 		}
+ 	case IPPROTO_UDP:
+-		sk = udp4_lib_lookup(net, saddr, sport, daddr, dport,
+-				     in->ifindex);
++		/* the router kernel does not export udp4_lib_lookup (built without NF_TPROXY/NF_SOCKET); inline it */
++		sk = __udp4_lib_lookup(net, saddr, sport, daddr, dport,
++				       in->ifindex, 0, &udp_table, NULL);
++		if (sk && !refcount_inc_not_zero(&sk->sk_refcnt))
++			sk = NULL;
+ 		if (sk) {
+ 			int connected = (sk->sk_state == TCP_ESTABLISHED);
+ 			int wildcard = (inet_sk(sk)->inet_rcv_saddr == 0);
